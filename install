@@ -57,7 +57,6 @@ mv ${GRAPHITE_CONF}/*.example ${GRAPHITE_CONF}/examples/
 cp ${SYNTHESIZE_HOME}/templates/graphite/conf/* ${GRAPHITE_CONF}/
 cp ${SYNTHESIZE_HOME}/templates/collectd/collectd.conf /etc/collectd/
 cp ${SYNTHESIZE_HOME}/templates/apache/graphite.conf /etc/apache2/sites-available/
-cp ${SYNTHESIZE_HOME}/templates/init/* /etc/init/
 cp ${SYNTHESIZE_HOME}/templates/init.d/* /etc/init.d/
 
 # Setup the correct Apache site and modules
@@ -85,6 +84,7 @@ chown -R carbon ${GRAPHITE_STORAGE}/whisper
 mkdir ${GRAPHITE_STORAGE}/log/apache2
 chown www-data ${GRAPHITE_STORAGE}/log/webapp
 chmod +x /etc/init.d/carbon-cache
+chmod +x /etc/init.d/statsite
 
 # Setup hourly cron to rebuild Graphite index
 cp ${SYNTHESIZE_HOME}/templates/graphite/cron/build-index /etc/cron.hourly/graphite-build-index
@@ -93,7 +93,9 @@ sudo -u www-data /opt/graphite/bin/build-index.sh
 
 # Start our processes
 update-rc.d carbon-cache defaults
+update-rc.d statsite defaults
 service carbon-cache start
+service statsite start
 service memcached start
 service collectd start
 
