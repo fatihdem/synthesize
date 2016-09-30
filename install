@@ -3,7 +3,8 @@
 # Jason Dixon <jason@dixongroup.net>
 
 SYNTHESIZE_HOME=$( cd "$( dirname "$0" )" && pwd )
-UBUNTU_RELEASE=`lsb_release -a 2>/dev/null | grep '^Descrip' | cut -s -f 2`
+
+LINUX_RELEASE=`lsb_release -a 2>/dev/null | grep '^Descrip' | cut -s -f 2`
 
 GRAPHITE_HOME='/opt/graphite'
 GRAPHITE_CONF="${GRAPHITE_HOME}/conf"
@@ -13,10 +14,18 @@ if [ -z $GRAPHITE_RELEASE ]; then
     GRAPHITE_RELEASE='0.9.15'
 fi
 
-if [[ ! $UBUNTU_RELEASE =~ 'Ubuntu 14.04' ]]; then
-  echo "Sorry, this is only supported for Ubuntu Linux 14.04."
+if [[ ! $LINUX_RELEASE =~ 'Ubuntu 14.04' && ! $LINUX_RELEASE =~ 'Debian GNU/Linux' ]]; then
+  echo "Sorry, this is only supported for Ubuntu Linux 14.04 and Debian 8"
   exit 1
 fi
+
+REGEX=".*2\.7\.1[1-9]\+*"
+
+if [[! $(python --version 2>&1) =~ $REGEX ]]; then
+        echo "Python must be equal to or higher than 2.7.11"
+        exit 1
+fi
+
 if [[ -d $GRAPHITE_HOME ]]; then
   echo "Looks like you already have a Graphite installation in ${GRAPHITE_HOME}, aborting."
   exit 1
@@ -87,6 +96,4 @@ update-rc.d carbon-cache defaults
 service carbon-cache start
 service memcached start
 service collectd start
-service apache2 start
-service statsite start
 
