@@ -98,4 +98,4 @@ service carbon-cache start
 service statsite start
 service memcached start
 service collectd start
-
+service apache2 restart
