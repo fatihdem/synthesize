@@ -37,7 +37,7 @@ case "$1" in
   stop)
     for INSTANCE in $(seq 1 $INSTANCES); do
       echo -n "Stopping ${NAME}-${INSTANCE}: "
-      $DAEMON stop --instance=${INSTANCE} 1>/dev/null
+      $DAEMON stop 1>/dev/null
       echo "stopped"
     done
     exit 0
