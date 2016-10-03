@@ -11,7 +11,7 @@
 # (e.g. [cache:1], [cache:2], [cache:3]
 
 PID_DIR=/opt/graphite/storage
-DAEMON=/usr/local/sbin/statsite
+DAEMON=/usr/local/sbin/statsite.sh
 NAME=statsite
 INSTANCES=1
 

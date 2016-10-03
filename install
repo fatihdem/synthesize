@@ -52,6 +52,7 @@ cd ../statsite; ./bootstrap.sh; ./configure; make; cp src/statsite /usr/local/sb
 
 # Install configuration files for Graphite/Carbon and Apache
 cp ${SYNTHESIZE_HOME}/templates/statsite/statsite.conf /etc/statsite.conf
+cp ${SYNTHESIZE_HOME}/templates/statsite/statsite.sh /usr/local/sbin/statsite.sh
 mkdir ${GRAPHITE_CONF}/examples
 mv ${GRAPHITE_CONF}/*.example ${GRAPHITE_CONF}/examples/
 cp ${SYNTHESIZE_HOME}/templates/graphite/conf/* ${GRAPHITE_CONF}/
@@ -85,6 +86,7 @@ mkdir ${GRAPHITE_STORAGE}/log/apache2
 chown www-data ${GRAPHITE_STORAGE}/log/webapp
 chmod +x /etc/init.d/carbon-cache
 chmod +x /etc/init.d/statsite
+chmod +x /usr/local/sbin/statsite.sh
 
 # Setup hourly cron to rebuild Graphite index
 cp ${SYNTHESIZE_HOME}/templates/graphite/cron/build-index /etc/cron.hourly/graphite-build-index
